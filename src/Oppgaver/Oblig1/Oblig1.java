@@ -152,7 +152,33 @@ public class Oblig1 {
 
     ///// Oppgave 8 //////////////////////////////////////
     public static int[] indekssortering(int[] a) {
-        throw new UnsupportedOperationException();
+        if (a.length == 0) {
+            return a;
+        }
+        int[] b = new int[a.length];
+        int minverdi;
+        int maksVerdi = Integer.MIN_VALUE;
+        int m = 0;
+        for (int j = 0; j < a.length; j++) {
+            minverdi = Integer.MAX_VALUE;
+            for (int i = 0; i < a.length; i++) {
+                if(a[i] == minverdi) {
+                    b[j] = i;
+                    j++;
+                }
+                if (a[i] < minverdi && a[i] > maksVerdi) {
+                    m = i;                // indeks til største verdi oppdateres
+                    minverdi = a[m];     // største verdi oppdateres
+                }
+                if (i == a.length - 1) {
+                    maksVerdi = minverdi;
+                }
+
+            }
+
+            b[j] = m;
+        }
+        return b;
     }
 
     ///// Oppgave 9 //////////////////////////////////////
