@@ -142,12 +142,48 @@ public class Oblig1 {
     ///// Oppgave 7 //////////////////////////////////////
     /// 7a)
     public static String flett(String s, String t) {
-        throw new UnsupportedOperationException();
+        //Oppretter en string som verdiene skal flettes sammen i
+        String ut = "";
+
+        for(int i = 0; i < s.length() + t.length(); i++) {
+            if(i < s.length()) {
+                ut += s.charAt(i);
+            }
+
+            if(i < t.length()) {
+                ut += t.charAt(i);
+            }
+        }
+        return ut;
     }
 
     /// 7b)
     public static String flett(String... s) {
-        throw new UnsupportedOperationException();
+        String ut = "";
+        //total lengeden av alle strengene
+        int totalLengde = 0;
+
+
+        //Looper gjennom alle parameterne og finner den totale lengden
+        for (int i=0; i<s.length;i++){
+            //Adderer lengden for hver Char
+            totalLengde +=s[i].length();
+        }
+
+        for (int i=0;i<totalLengde;i++){
+
+            //Går gjennom parameterne i String og fletter det sammen
+            for (int j=0; j < s.length ;j++){
+
+                //Sjekker om det er en Char på indexen
+                if (i < s[j].length()){
+                    //Legger til Char fra Stringen fra j til indexen på i
+                    ut += s[j].charAt(i);
+                }
+            }
+        }
+
+        return ut;
     }
 
     ///// Oppgave 8 //////////////////////////////////////
