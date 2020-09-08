@@ -47,7 +47,21 @@ public class Oblig1 {
 
     ///// Oppgave 2 //////////////////////////////////////
     public static int antallUlikeSortert(int[] a) {
-        throw new UnsupportedOperationException();
+        if(a.length < 1) {
+            return 0;
+        } else if(a.length == 1) {
+            return  1;
+        }
+        if(ombyttinger(a) > 0){
+            throw new IllegalStateException();
+        }
+        int antall = 1;
+        for(int i = 1; i < a.length ; i++) {
+            if(a[i] != a[i-1]){
+                antall += 1;
+            }
+        }
+        return antall;
     }
 
     ///// Oppgave 3 //////////////////////////////////////
