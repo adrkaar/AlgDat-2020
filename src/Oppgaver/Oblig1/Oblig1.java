@@ -3,17 +3,46 @@ package Oppgaver.Oblig1;
 ////// Løsningsforslag Oblig 1 ////////////////////////
 
 import java.lang.UnsupportedOperationException;
+import java.util.NoSuchElementException;
 
 public class Oblig1 {
     private Oblig1() {}
 
+    //Hjelpemetode
+    public static void bytt(int[] a, int i, int j) {
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
     ///// Oppgave 1 //////////////////////////////////////
     public static int maks(int[] a) {
-        throw new UnsupportedOperationException();
+        if(a.length == 0) {
+            throw new NoSuchElementException();
+        }
+
+        for(int i = 1; i < a.length; i++) {
+            if (a[i-1] > a[i]) {
+                bytt(a, i, i-1);
+            }
+        }
+        return a[a.length - 1];
     }
 
     public static int ombyttinger(int[] a) {
-        throw new UnsupportedOperationException();
+        if(a.length == 0){
+            throw new NoSuchElementException();
+        }
+
+        int antall = 0;
+        for(int i = 0; i < a.length - 1; i++) {
+            if (a[i] > a[i+1]){
+                int b = a[i];
+                a[i] = a[i+1];
+                a[i+1] = b;
+                antall++;
+            }
+        }
+        return antall;
     }
 
     ///// Oppgave 2 //////////////////////////////////////
