@@ -117,12 +117,26 @@ public class Oblig1 {
 
     ///// Oppgave 5 //////////////////////////////////////
     public static void rotasjon(char[] a) {
-        throw new UnsupportedOperationException();
+        if(a.length == 0) {
+            return;
+        }
+        char hjelpeVar = a[a.length - 1];
+        System.arraycopy(a, 0, a, 1, a.length - 1);
+        a[0] = hjelpeVar;
     }
 
     ///// Oppgave 6 //////////////////////////////////////
     public static void rotasjon(char[] a, int k) {
-        throw new UnsupportedOperationException();
+        if(a.length > 1000 || a.length == 0) {
+            return;
+        }
+        int b = k % a.length;
+        if(k < 0) {
+            b = a.length - (-k % a.length);
+        }
+        for(int i = 0; i < b ; i++) {
+            rotasjon(a);
+        }
     }
 
     ///// Oppgave 7 //////////////////////////////////////
