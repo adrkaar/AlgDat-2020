@@ -5,44 +5,39 @@ package Oppgaver.Oblig1;
 import java.lang.UnsupportedOperationException;
 import java.util.NoSuchElementException;
 
+import static Oppgaver.Oblig1.Oblig1Test.bytt;
+
 public class Oblig1 {
     private Oblig1() {}
 
-    //Hjelpemetode
-    public static void bytt(int[] a, int i, int j) {
-        int temp = a[i];
-        a[i] = a[j];
-        a[j] = temp;
-    }
+
     ///// Oppgave 1 //////////////////////////////////////
     public static int maks(int[] a) {
         if(a.length == 0) {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException(); //kaster avvik viss arrayet er tomt
         }
 
-        for(int i = 1; i < a.length; i++) {
-            if (a[i-1] > a[i]) {
+        for(int i = 1; i < a.length; i++) {//går gjennom alle tallene i tabellen
+            if (a[i-1] > a[i]) {// a[i] flyttes mot høgre hvis den er større enn tallet til høgre for seg.
                 bytt(a, i, i-1);
             }
         }
-        return a[a.length - 1];
+        return a[a.length - 1];//returnerer det siste/største tallet i arrayet.
     }
 
     public static int ombyttinger(int[] a) {
         if(a.length == 0){
-            throw new NoSuchElementException();
+            throw new NoSuchElementException();//Kaster avvik viss arrayet er tomt
         }
 
         int antall = 0;
-        for(int i = 0; i < a.length - 1; i++) {
-            if (a[i] > a[i+1]){
-                int b = a[i];
-                a[i] = a[i+1];
-                a[i+1] = b;
+        for(int i = 1; i < a.length; i++) {
+            if (a[i-1] > a[i]){
+                bytt(a,i-1,i);   //gåt gjennom alle tallene i tabellen og flytter mot venstre i tabellen viss større og teller
                 antall++;
             }
         }
-        return antall;
+        return antall; //returnerer antall ombyttinger
     }
 
     ///// Oppgave 2 //////////////////////////////////////
@@ -95,16 +90,16 @@ public class Oblig1 {
             while (v <= h && a[v] < skilleverdi) v++;   // h er stoppverdi for v
             while (v <= h && a[h] >= skilleverdi) h--;  // v er stoppverdi for h
 
-            if (v < h) Oblig1Test.bytt(a,v++,h--);                 // bytter om a[v] og a[h]
+            if (v < h) bytt(a,v++,h--);                 // bytter om a[v] og a[h]
             else  return v;  // a[v] er nåden første som ikke er mindre enn skilleverdi
         }
     }
 
     private static int sParter0(int[] a, int v, int h, int indeks)
     {
-        Oblig1Test.bytt(a, indeks, h);           // skilleverdi a[indeks] flyttes bakerst
+        bytt(a, indeks, h);           // skilleverdi a[indeks] flyttes bakerst
         int pos = parter0(a, v, h - 1, a[h]);  // partisjonerer a[v:h - 1]
-        Oblig1Test.bytt(a, pos, h);              // bytter for å få skilleverdien på rett plass
+        bytt(a, pos, h);              // bytter for å få skilleverdien på rett plass
         return pos;                   // returnerer posisjonen til skilleverdien
     }
 
@@ -126,7 +121,6 @@ public class Oblig1 {
         int left = 0;
         int right = a.length - 1;
         while(right>left) {
-
             while (a[left] % 2 != 0 && right > left) { //Flytter venstre peker til høgre viss det er et oddetall
                 left++;
             }
@@ -134,7 +128,7 @@ public class Oblig1 {
                 right--;
                 odds = false; // Arrayet inneholder ikke bare oddetall
             }
-            Oblig1Test.bytt(a,left,right);      // bytter om elementene de forskjellige pekerene tilhører
+            bytt(a,left,right);      // bytter om elementene de forskjellige pekerene tilhører
         }
         int end = left-1;
         if(odds) {
@@ -149,11 +143,11 @@ public class Oblig1 {
     ///// Oppgave 5 //////////////////////////////////////
     public static void rotasjon(char[] a) {
         if(a.length == 0) {
-            return;
+            return;  //metoden avsluttes viss tabellen er tom
         }
-        char hjelpeVar = a[a.length - 1];
-        System.arraycopy(a, 0, a, 1, a.length - 1);
-        a[0] = hjelpeVar;
+        char hjelpeVar = a[a.length - 1]; //lagrer siste tallet i tabellen
+        System.arraycopy(a, 0, a, 1, a.length - 1); //flytter alle elementene ett hakk mot høgre.
+        a[0] = hjelpeVar; //setter det tallet som tidligere var på siste plass først i tabellen.
     }
 
     ///// Oppgave 6 //////////////////////////////////////
@@ -161,12 +155,12 @@ public class Oblig1 {
         if(a.length > 1000 || a.length == 0) {
             return;
         }
-        int b = k % a.length;
+        int b = k % a.length;// finner ut hvor mange plasser det må roteres for å være mest effektiv
         if(k < 0) {
-            b = a.length - (-k % a.length);
+            b = a.length - (-k % a.length); // samme som over, men viss tallet er negativt
         }
         for(int i = 0; i < b ; i++) {
-            rotasjon(a);
+            rotasjon(a); //roterer k antall ganger
         }
     }
 
@@ -174,47 +168,47 @@ public class Oblig1 {
     /// 7a)
     public static String flett(String s, String t) {
         //Oppretter en string som verdiene skal flettes sammen i
-        String ut = "";
+        StringBuilder ut = new StringBuilder();
 
         for(int i = 0; i < s.length() + t.length(); i++) {
             if(i < s.length()) {
-                ut += s.charAt(i);
+                ut.append(s.charAt(i));
             }
 
             if(i < t.length()) {
-                ut += t.charAt(i);
+                ut.append(t.charAt(i));
             }
         }
-        return ut;
+        return ut.toString();
     }
 
     /// 7b)
     public static String flett(String... s) {
-        String ut = "";
+        StringBuilder ut = new StringBuilder();
         //total lengeden av alle strengene
         int totalLengde = 0;
 
 
         //Looper gjennom alle parameterne og finner den totale lengden
-        for (int i=0; i<s.length;i++){
+        for (String value : s) {
             //Adderer lengden for hver Char
-            totalLengde +=s[i].length();
+            totalLengde += value.length();
         }
 
         for (int i=0;i<totalLengde;i++){
 
             //Går gjennom parameterne i String og fletter det sammen
-            for (int j=0; j < s.length ;j++){
+            for (String value : s) {
 
                 //Sjekker om det er en Char på indexen
-                if (i < s[j].length()){
+                if (i < value.length()) {
                     //Legger til Char fra Stringen fra j til indexen på i
-                    ut += s[j].charAt(i);
+                    ut.append(value.charAt(i));
                 }
             }
         }
 
-        return ut;
+        return ut.toString();
     }
 
     ///// Oppgave 8 //////////////////////////////////////
