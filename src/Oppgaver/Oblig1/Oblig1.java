@@ -48,9 +48,9 @@ public class Oblig1 {
 
     ///// Oppgave 2 //////////////////////////////////////
     public static int antallUlikeSortert(int[] a) {
-        if(a.length < 1) {
+        if(a.length < 1) {              //Sjekker om arrayet er tomt
             return 0;
-        } else if(a.length == 1) {
+        } else if(a.length == 1) {      //Returnerer 1 hvis arrayet har en størrelse på en
             return  1;
         }
         if(ombyttinger(a) > 0){
