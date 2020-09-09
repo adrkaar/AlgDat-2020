@@ -219,25 +219,26 @@ public class Oblig1 {
 
     ///// Oppgave 8 //////////////////////////////////////
     public static int[] indekssortering(int[] a) {
-        if (a.length == 0) {
+        int n = a.length;  // tabellens lengde
+        if (n == 0) {
             return a;
         }
         int[] b = new int[a.length];
         int minverdi;
         int maksVerdi = Integer.MIN_VALUE;
         int m = 0;
-        for (int j = 0; j < a.length; j++) {
+        for (int j = 0; j < n; j++) {
             minverdi = Integer.MAX_VALUE;
-            for (int i = 0; i < a.length; i++) {
+            for (int i = 0; i < n; i++) {
                 if(a[i] == minverdi) {
                     b[j] = i;
                     j++;
                 }
                 if (a[i] < minverdi && a[i] > maksVerdi) {
-                    m = i;                // indeks til største verdi oppdateres
-                    minverdi = a[m];     // største verdi oppdateres
+                    m = i;
+                    minverdi = a[m];
                 }
-                if (i == a.length - 1) {
+                if (i == n - 1) {
                     maksVerdi = minverdi;
                 }
 
@@ -250,39 +251,40 @@ public class Oblig1 {
 
     ///// Oppgave 9 //////////////////////////////////////
     public static int[] tredjeMin(int[] a) {
-        if(a.length < 3) {
-            throw new NoSuchElementException();
+        int n = a.length;  // tabellens lengde
+        if(n < 3) {
+            throw new NoSuchElementException(); // sjekker om tabellen har mindre enn tre elementer og kaster avvik hvis
         }
         int[] b = indekssortering(new int[]{a[0], a[1], a[2]});
-        int m = b[0];
-        int m1 = b[1];
-        int m2 = b[2];
-        int min = a[m];
-        int min1 = a[m1];
-        int min2 = a[m2];
-        for (int i = 3; i < a.length; i++) {
+        int m = b[0];           // indeks til minste
+        int m1 = b[1];          // indeks til nest minste
+        int m2 = b[2];          // indeks til tredje minste
+        int min = a[m];         // minste verdi
+        int min1 = a[m1];       // nest minste verdi
+        int min2 = a[m2];       // tredje minste verdi
+        for (int i = 3; i < n; i++) {
             if (a[i] < min2) {
                 if (a[i] < min1) {
                     if (a[i] < min) {
-                        min2 = min1;
                         m2 = m1;
-                        min1 = min;
+                        min2 = min1; // ny tredje minste verdi
                         m1 = m;
-                        min = a[i];
+                        min1 = min;  // ny nest minste verdi
                         m = i;
+                        min = a[i];  // ny tredje minste verdi
                     } else {
                         m2 = m1;
-                        min2 = min1;     // ny nest størst
+                        min2 = min1;     // ny tredje minste verdi
                         m1 = i;
-                        min1 = a[i];
+                        min1 = a[i];     // ny nest minste verdi
                     }
                 } else {
                     m2 = i;
-                    min2 = a[i];         // ny nest størst
+                    min2 = a[i];         // ny tredje minste verdi
                 }
             }
         }
-        return new int[] {m,m1,m2};
+        return new int[] {m,m1,m2}; // minste i posisjon 0, nest minste i posisjon 1, tredje minste i posisjon 2
     }
 
     ///// Oppgave 10 //////////////////////////////////////
