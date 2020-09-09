@@ -250,7 +250,39 @@ public class Oblig1 {
 
     ///// Oppgave 9 //////////////////////////////////////
     public static int[] tredjeMin(int[] a) {
-        throw new UnsupportedOperationException();
+        if(a.length < 3) {
+            throw new NoSuchElementException();
+        }
+        int[] b = indekssortering(new int[]{a[0], a[1], a[2]});
+        int m = b[0];
+        int m1 = b[1];
+        int m2 = b[2];
+        int min = a[m];
+        int min1 = a[m1];
+        int min2 = a[m2];
+        for (int i = 3; i < a.length; i++) {
+            if (a[i] < min2) {
+                if (a[i] < min1) {
+                    if (a[i] < min) {
+                        min2 = min1;
+                        m2 = m1;
+                        min1 = min;
+                        m1 = m;
+                        min = a[i];
+                        m = i;
+                    } else {
+                        m2 = m1;
+                        min2 = min1;     // ny nest størst
+                        m1 = i;
+                        min1 = a[i];
+                    }
+                } else {
+                    m2 = i;
+                    min2 = a[i];         // ny nest størst
+                }
+            }
+        }
+        return new int[] {m,m1,m2};
     }
 
     ///// Oppgave 10 //////////////////////////////////////
