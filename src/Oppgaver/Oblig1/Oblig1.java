@@ -7,6 +7,12 @@ import java.util.NoSuchElementException;
 
 import static Oppgaver.Oblig1.Oblig1Test.bytt;
 
+/* Medlemmer:
+- Adrian Karlsen, S336133
+- Iver Haugen, S345866
+
+ */
+
 public class Oblig1 {
     private Oblig1() {}
 
@@ -196,7 +202,6 @@ public class Oblig1 {
         }
 
         for (int i=0;i<totalLengde;i++){
-
             //Går gjennom parameterne i String og fletter det sammen
             for (String value : s) {
 
