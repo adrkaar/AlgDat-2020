@@ -286,13 +286,4 @@ public class Oblig1 {
         return new int[] {m,m1,m2}; // minste i posisjon 0, nest minste i posisjon 1, tredje minste i posisjon 2
     }
 
-    ///// Oppgave 10 //////////////////////////////////////
-    public static int bokstavNr(char bokstav) {
-        throw new UnsupportedOperationException();
-    }
-
-    public static boolean inneholdt(String a, String b) {
-        throw new UnsupportedOperationException();
-    }
-
 }  // Oppgaver.Oblig1.Oblig1
