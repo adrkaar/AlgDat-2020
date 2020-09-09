@@ -66,9 +66,26 @@ public class Oblig1 {
 
     ///// Oppgave 3 //////////////////////////////////////
     public static int antallUlikeUsortert(int[] a) {
-        throw new UnsupportedOperationException();
-    }
+        if(a.length == 0) {
+            return 0;  //returnerer 0 viss arrayet er tomt.
+        }
+        int unikeTall = 0;
+        boolean unik = true;
+        for(int i = 0; i < a.length ; i++) {
+            for (int i2 = 0 ; i2 < i; i2++) {
+                if (a[i2] == a[i]) {
+                    unik = false;
+                    break;
+                }
+            }
+            if(unik) {
+                unikeTall += 1;
+            }
+            unik = true;
+        }
+        return unikeTall;
 
+    }
     ///// Oppgave 4 //////////////////////////////////////
 
     private static int parter0(int[] a, int v, int h, int skilleverdi)
