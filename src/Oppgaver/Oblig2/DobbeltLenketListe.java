@@ -39,11 +39,66 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     public DobbeltLenketListe() {
-        throw new UnsupportedOperationException();
+        antall = 0;
+        endringer = 0;
     }
 
     public DobbeltLenketListe(T[] a) {
-        throw new UnsupportedOperationException();
+        if(a == null) {
+            antall = 0;
+            throw new NullPointerException();
+        }
+        if(a.length == 0) {
+            antall = 0;
+            return;
+        }
+        int s = 0;
+        for(int i = 0; i < a.length; i++) {
+            if(a[i] != null) {
+                hode = new Node<>(a[i]);
+                s = i+1;
+                antall += 1;
+                break;
+            }
+            if(i == a.length-1) {
+                antall = 0;
+                return;
+            }
+        }
+        int k = 0;
+        for(int i = a.length-1; i >= s; i--) {
+            if(a[i] != null) {
+                hale = new Node<>(a[i]);
+                k = i;
+                antall +=1;
+                break;
+            }
+        }
+
+        if(hale == hode || a.length == 1) {
+            antall = 1;
+
+            return;
+        }
+        Node<T> start = hode;
+
+        for(int i = s; i < k; i++) {
+            if(a[i] == null) {
+                continue;
+            }
+            Node<T> c = new Node<>(a[i],start,null);
+            c.forrige.neste = c;
+            start = c;
+            this.antall += 1;
+
+        }
+        if(antall < 1) {
+            hale.forrige = hode;
+            hode.neste = hale;
+        }
+
+
+
     }
 
     public Liste<T> subliste(int fra, int til){
@@ -52,12 +107,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int antall() {
-        throw new UnsupportedOperationException();
+        return antall;
     }
 
     @Override
     public boolean tom() {
-        throw new UnsupportedOperationException();
+        return antall == 0;
     }
 
     @Override
