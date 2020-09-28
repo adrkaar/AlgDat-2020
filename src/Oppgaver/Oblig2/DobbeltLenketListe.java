@@ -38,6 +38,26 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
+
+    private Node<T> finnNode(int indeks)
+    {
+        this.indeksKontroll(indeks,false);
+        Node<T> current;
+        if(indeks < antall/2) {
+            current = hode;
+            for(int i = 0; i<indeks;i++) {
+                current = current.neste;
+            }
+        } else {
+            current = hale;
+            for(int i = 0;i < antall-indeks-1;i++) {
+                current = current.forrige;
+            }
+        }
+    return current;
+    }
+
+
     public DobbeltLenketListe() {
         antall = 0;
         endringer = 0;
@@ -93,8 +113,33 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     }
 
+    private static void fratilKontroll(int antall, int fra, int til)
+    {
+        if (fra < 0)                                  // fra er negativ
+            throw new IndexOutOfBoundsException 
+                    ("fra(" + fra + ") er negativ!");
+
+        if (til > antall)                          // til er utenfor tabellen
+            throw new IndexOutOfBoundsException 
+                    ("til(" + til + ") > antall(" + antall + ")");
+
+        if (fra > til)                                // fra er større enn til
+            throw new IllegalArgumentException
+                    ("fra(" + fra + ") > til(" + til + ") - illegalt intervall!");
+    }
+
     public Liste<T> subliste(int fra, int til){
-        throw new UnsupportedOperationException();
+        fratilKontroll(antall, fra, til);
+        Liste<T> ut = new DobbeltLenketListe<>();
+        Node<T> current = hode;
+        for(int i = 0; i < fra; i++) {
+            current = current.neste;
+        }
+        for(int i = 0; i < til-fra; i++) {
+            ut.leggInn(current.verdi);
+            current = current.neste;
+        }
+    return ut;
     }
 
     @Override
@@ -128,27 +173,70 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        throw new UnsupportedOperationException();
+
+        antall++;
+        indeksKontroll(indeks,true);
+        Objects.requireNonNull(verdi);
+
+        antall--;
+        if(indeks == antall || tom()) {
+            leggInn(verdi);
+            return;
+        }
+        Node<T> ny;
+        if(indeks == 0) {
+             ny = new Node<>(verdi,null,hode);
+             hode.forrige = ny;
+             ny.neste = hode;
+             hode = ny;
+             antall++;
+             endringer++;
+             return;
+        }
+        endringer++;
+        ny = new Node<>(verdi,finnNode(indeks-1),finnNode(indeks));
+        antall++;
+        ny.neste.forrige = ny;
+        ny.forrige.neste = ny;
+
+
+
     }
 
     @Override
     public boolean inneholder(T verdi) {
-        throw new UnsupportedOperationException();
+        int i = indeksTil(verdi);
+        return i >= 0;
     }
 
     @Override
     public T hent(int indeks) {
-        throw new UnsupportedOperationException();
+        indeksKontroll(indeks,false);
+        return finnNode(indeks).verdi;
     }
 
     @Override
     public int indeksTil(T verdi) {
-        throw new UnsupportedOperationException();
+        if (verdi == null) return -1;
+        Node<T> current = hode;
+        for(int i = 0; i < antall; i++) {
+            if(verdi.equals(current.verdi)) {
+                return i;
+            }
+            current = current.neste;
+        }
+        return -1;
     }
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        throw new UnsupportedOperationException();
+        indeksKontroll(indeks, false);
+        Objects.requireNonNull(nyverdi);
+        T ut = finnNode(indeks).verdi;
+        finnNode(indeks).verdi = nyverdi;
+        endringer++;
+        return ut;
+
     }
 
     @Override
