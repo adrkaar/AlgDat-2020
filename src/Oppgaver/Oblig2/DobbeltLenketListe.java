@@ -74,14 +74,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 break;
             }
         }
-
         if(hale == hode || a.length == 1) {
             antall = 1;
-
             return;
         }
         Node<T> start = hode;
-
         for(int i = s; i < k; i++) {
             if(a[i] == null) {
                 continue;
@@ -90,12 +87,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             c.forrige.neste = c;
             start = c;
             this.antall += 1;
-
         }
         if(antall < 1) {
             hale.forrige = hode;
             hode.neste = hale;
         }
+        hale.forrige = start;
+        start.neste = hale;
 
 
 
@@ -162,7 +160,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public String toString() {
-        throw new UnsupportedOperationException();
+        StringBuilder ut = new StringBuilder();
+        int i = 0;
+        Node<T> a = this.hode;
+        while(i < antall) {
+            ut.append(a.verdi).append("\n");
+            if(i == antall-1) break;
+            a = a.neste;
+            i++;
+        }
+        System.out.println(antall);
+        return ut.toString();
     }
 
     public String omvendtString() {
