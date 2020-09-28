@@ -109,7 +109,21 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean leggInn(T verdi) {
-        throw new UnsupportedOperationException();
+        Objects.requireNonNull(verdi);
+        endringer++;
+        Node<T> a = new Node<>(verdi);
+        if(tom()) {
+            antall++;
+            hode = a;
+            hale = hode;
+            return true;
+        }
+        antall++;
+        hale.neste = a;
+        a.forrige = hale;
+        hale = a;
+
+        return true;
     }
 
     @Override
@@ -154,21 +168,37 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public String toString() {
+        if(tom()) {
+            return "[]";
+        }
         StringBuilder ut = new StringBuilder();
-        int i = 0;
-        Node<T> a = this.hode;
+        ut.append("[").append(hode.verdi);
+        int i = 1;
+        Node<T> a = hode.neste;
         while(i < antall) {
-            ut.append(a.verdi).append("\n");
-            if(i == antall-1) break;
+            ut.append(", ").append(a.verdi);
             a = a.neste;
             i++;
         }
-        System.out.println(antall);
+        ut.append("]");
         return ut.toString();
     }
 
     public String omvendtString() {
-        throw new UnsupportedOperationException();
+        if(tom()) {
+            return "[]";
+        }
+        StringBuilder ut = new StringBuilder();
+        ut.append("[").append(hale.verdi);
+        int i = antall-2;
+        Node<T> a = hale.forrige;
+        while(i >= 0) {
+            ut.append(", ").append(a.verdi);
+            a = a.forrige;
+            i--;
+        }
+        ut.append("]");
+        return ut.toString();
     }
 
     @Override
