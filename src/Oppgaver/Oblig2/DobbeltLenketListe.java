@@ -44,10 +44,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public DobbeltLenketListe(T[] a) {
-        if(a == null) {
-            antall = 0;
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(a);
         if(a.length == 0) {
             antall = 0;
             return;
@@ -74,7 +71,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 break;
             }
         }
-        if(hale == hode || a.length == 1) {
+
+        if(hale == null || a.length == 1) {
+            hale = hode;
             antall = 1;
             return;
         }
@@ -88,13 +87,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             start = c;
             this.antall += 1;
         }
-        if(antall < 1) {
-            hale.forrige = hode;
-            hode.neste = hale;
-        }
-        hale.forrige = start;
-        start.neste = hale;
-
+            hale.forrige = start;
+            start.neste = hale;
 
 
     }
