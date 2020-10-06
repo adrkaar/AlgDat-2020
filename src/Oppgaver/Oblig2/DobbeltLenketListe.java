@@ -300,7 +300,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void nullstill() {
-        throw new UnsupportedOperationException();
+        for(int i = 0; i < antall;i++) {
+            fjern(0);
+        }
+        antall = 0;
+        endringer++;
     }
 
     @Override
