@@ -41,7 +41,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     private Node<T> finnNode(int indeks)
     {
-        this.indeksKontroll(indeks,false);
         Node<T> current;
         if(indeks < antall/2) {
             current = hode;
@@ -155,9 +154,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public boolean leggInn(T verdi) {
         Objects.requireNonNull(verdi);
-        endringer++;
         Node<T> a = new Node<>(verdi);
         if(tom()) {
+            endringer++;
             antall++;
             hode = a;
             hale = hode;
@@ -167,18 +166,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         hale.neste = a;
         a.forrige = hale;
         hale = a;
-
+        endringer++;
         return true;
     }
 
     @Override
     public void leggInn(int indeks, T verdi) {
-
-        antall++;
         indeksKontroll(indeks,true);
         Objects.requireNonNull(verdi);
-
-        antall--;
         if(indeks == antall || tom()) {
             leggInn(verdi);
             return;
@@ -193,14 +188,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
              endringer++;
              return;
         }
-        endringer++;
         ny = new Node<>(verdi,finnNode(indeks-1),finnNode(indeks));
+        endringer++;
         antall++;
         ny.neste.forrige = ny;
         ny.forrige.neste = ny;
-
-
-
     }
 
     @Override
@@ -241,12 +233,69 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        throw new UnsupportedOperationException();
+        if(verdi == null) {
+            return false;
+        }
+        if(verdi.equals(hode.verdi)) {
+            if(hode.equals(hale)) {
+                hale = null;
+                hode = null;
+            } else {
+                hode.neste.forrige = null;
+                hode = hode.neste;
+            }
+            antall--;
+            endringer++;
+            return true;
+        }
+        if (verdi.equals(hale.verdi)) {
+            hale.forrige.neste = null;
+            hale = hale.forrige;
+            antall--;
+            endringer++;
+            return true;
+        }
+        Node<T> current = hode.neste;
+        for(int i = 0; i < antall-1; i++) {
+            if(current.verdi.equals(verdi)) {
+                current.neste.forrige = current.forrige;
+                current.forrige.neste = current.neste;
+                antall--;
+                endringer++;
+                return true;
+            }
+            current = current.neste;
+        }
+        return false;
     }
 
     @Override
     public T fjern(int indeks) {
-        throw new UnsupportedOperationException();
+    indeksKontroll(indeks,false);
+    endringer++;
+    if(indeks == 0) {
+        if (hode == hale) {
+            hale = null;
+        } else {
+            hode.neste.forrige = null;
+        }
+        Node<T> temp = hode;
+        hode = hode.neste;
+        antall--;
+        return temp.verdi;
+    }else if (indeks == antall-1) {
+        hale.forrige.neste = null;
+        Node<T> temp = hale;
+        hale = hale.forrige;
+        antall--;
+        return temp.verdi;
+    }else {
+        Node<T> temp = finnNode(indeks);
+        temp.neste.forrige = temp.forrige;
+        temp.forrige.neste = temp.neste;
+        antall--;
+        return temp.verdi;
+    }
     }
 
     @Override
