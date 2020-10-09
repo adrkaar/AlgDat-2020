@@ -388,13 +388,45 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public void remove(){
-            throw new UnsupportedOperationException();
+            if(!fjernOK) throw new IllegalStateException();
+            if(endringer != iteratorendringer) throw new ConcurrentModificationException();
+            fjernOK = false;
+            Node<T> p;
+            if(denne == null) {p = hale;} else {p = denne.forrige;}
+            if(p == hode) {
+                if(antall == 1) {
+                    hode = null;
+                    hale = null;
+                } else {
+                    hode.neste.forrige = null;
+                    hode = hode.neste;
+                }
+            } else if(p == hale) {
+                hale.forrige.neste = null;
+                hale = hale.forrige;
+            } else {
+                p.forrige.neste = p.neste;
+                p.neste.forrige = p.forrige;
+            }
+            antall--;
+            endringer++;
+            iteratorendringer++;
         }
 
     } // class DobbeltLenketListeIterator
 
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-        throw new UnsupportedOperationException();
+        if(liste.tom()) return;
+        int antall = liste.antall();
+        for (int i = 0; i < antall-1; i++) {
+            for(int j = i+1; j < antall; j++) {
+                if(c.compare(liste.hent(i),liste.hent(j)) > 0) {
+                    T temp = liste.hent(i);
+                    liste.oppdater(i,liste.hent(j));
+                    liste.oppdater(j,temp);
+                }
+            }
+        }
     }
 
 } // class DobbeltLenketListe
