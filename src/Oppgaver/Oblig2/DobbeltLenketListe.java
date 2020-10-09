@@ -204,8 +204,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
-        indeksKontroll(indeks,false);
-        return finnNode(indeks).verdi;
+        indeksKontroll(indeks,false); //Sjekker om index er ugyldig
+        return finnNode(indeks).verdi; //Finner noden til index og putter den inn i en varibel for så å returnere den.
     }
 
     @Override
@@ -317,6 +317,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         ut.append("[").append(hode.verdi);
         int i = 1;
         Node<T> a = hode.neste;
+        //Går gjennom listen så lenge antall er større en i, og legger verdien til noden i ut strengen.
         while(i < antall) {
             ut.append(", ").append(a.verdi);
             a = a.neste;
@@ -327,6 +328,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public String omvendtString() {
+        //Returner [] om listem er tom
         if(tom()) {
             return "[]";
         }
