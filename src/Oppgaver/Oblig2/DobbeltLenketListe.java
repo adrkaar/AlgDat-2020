@@ -112,6 +112,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     }
 
+    //Hjelpemetode
     private static void fratilKontroll(int antall, int fra, int til)
     {
         if (fra < 0)                                  // fra er negativ
@@ -128,15 +129,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public Liste<T> subliste(int fra, int til){
-        fratilKontroll(antall, fra, til);
-        Liste<T> ut = new DobbeltLenketListe<>();
-        Node<T> current = hode;
+        fratilKontroll(antall, fra, til); //Sjekker at argumentene er innenfor listens lengde
+        Liste<T> ut = new DobbeltLenketListe<>(); //Oppretter ny liste
+        Node<T> current = hode; //Lagrer hode
         for(int i = 0; i < fra; i++) {
-            current = current.neste;
         }
         for(int i = 0; i < til-fra; i++) {
-            ut.leggInn(current.verdi);
-            current = current.neste;
+            ut.leggInn(current.verdi); //Legger inn alle verdiene i liste
+            current = current.neste; //Flytter current inn i neste
         }
     return ut;
     }
@@ -162,6 +162,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             hale = hode;
             return true;
         }
+        //legger inn noder
         antall++;
         hale.neste = a;
         a.forrige = hale;

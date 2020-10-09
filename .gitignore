@@ -1,1 +1,9 @@
-# Created by .ignore support plugin (hsz.mobi)
+### Java ###
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Discord pluging
+discord.xml
